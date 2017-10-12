@@ -3,38 +3,22 @@ export default class Shim {
   constructor() {
     this.data = {
       groups : [
-        this.getGroup('Dev Team', ['klondike-brands', 'canvas'], ['jstriker', 'xanthisefort'])
+        {id:"dev-team",      name : 'Dev Team',      apps : ['a','b'], users:['johnny-appleseed', 'xanthisefort']},
+        {id:"critical-apps", name : 'Critical Apps', apps : ['c','d'], users:['johnny-appleseed', 'xanthisefort', 'keezubun']},
       ],
       apps : [
-        this.getApp('klondike-brands'),
-        this.getApp('canvas'),
-        this.getApp('uncouth-uma'),
+        { id:"a", name:'lovely-lemming'},
+        { id:"b", name:'sneaky-snake'},
+        { id:"c", name:'meek-mouse'},
+        { id:"d", name:'daring-devonshire'},
+        { id:"e", name:'lurking-lemming'},
       ],
       users : [
-        this.getUser('jstriker'),
-        this.getUser('xanthisefort'),
+        {user : "johnny-appleseed", email:"contact@parslee.com"},
+        {user : "xanthisefort",     email:"jackson@gmail.com"},
+        {user : "keezubun",         email:"michael101@gmail.com"},
+        {user : "sanderson",        email:"scott@nanobox.io"},
       ],
-    }
-  }
-
-  getGroup(name, id, apps, users) {
-    return {
-      name, id:name, apps, users
-    }
-  }
-
-  getApp(appName) {
-    return {
-      id   : appName,
-      name : appName,
-    }
-  }
-
-  getUser(name) {
-    return{
-      id    : name,
-      name  : name,
-      email : 'mark@parslee.com'
     }
   }
 

@@ -1,6 +1,6 @@
 {
   "name": "app-groups",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Nanobox dashboard UI component for managing App Groups",
   "author": "Mark Parson <mark@nanobox.io>",
   "private": true,
@@ -10,6 +10,9 @@
     "build": "node webpack/build.js"
   },
   "dependencies": {
+    "deep-equal": "^1.0.1",
+    "lexi": "tolmark12/nanobox-lexi",
+    "lodash": "^4.17.4",
     "shadow-icons": "Tolmark12/shadow-icons-js"
   },
   "devDependencies": {

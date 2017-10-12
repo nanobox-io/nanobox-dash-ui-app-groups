@@ -1,11 +1,49 @@
 <script type="text/babel">
+import Vue from 'vue'
+Vue.config.productionTip = false
+
 import appGroup from './app-group'
+import LocalModel from './local-model'
+import {saveSection, errors} from 'lexi'
 export default {
   name  : 'app-groups',
-  props : ['model'],
-  components : {appGroup},
-  data() {return {};},
-  methods    : {},
+  props : ['model', 'callbacks'],
+  components : {appGroup, saveSection, errors},
+  data() {
+    return {
+      localModel   : new LocalModel(this.model),
+      lockToBottom : false,
+      error        : null,
+      saving       : false,
+    }
+  },
+  methods    : {
+    // On scroll, check the position for showing / hiding the save-section
+    onScroll() {
+      let rect = this.$el.getBoundingClientRect()
+      let windowHeight = window.innerHeight
+      if(rect.y + rect.height - windowHeight > 0)
+        this.lockToBottom = true
+      else
+        this.lockToBottom = false
+    },
+    save() {
+      this.error  = null
+      this.saving = true
+      this.callbacks.updateGroups( this.localModel.flattenGroups(), (results)=>{
+        this.saving = false
+        if(results.error != null)
+          this.error = results.error
+      })
+    },
+    cancel() {
+      this.localModel.reset()
+    }
+  },
+  mounted() {
+    this.onScroll()
+    document.body.onscroll = this.onScroll
+  }
 }
 </script>
 
@@ -14,7 +52,10 @@ export default {
 -->
 
 <template lang="pug">
-  app-group()
+  .groups(v-bind:class="{fixed:lockToBottom}")
+    errors(:errors="error")
+    app-group(v-for="(group,i) in localModel.groups" :group="group" :model="localModel" :key="i")
+    save-section(v-if="localModel.isDirty" @save="save" @cancel="cancel" :cycling="saving")
 </template>
 
 <!--
@@ -22,4 +63,10 @@ export default {
 -->
 
 <style lang="scss" scoped>
+  .groups           {
+    .save-section   {bottom: 0; padding-bottom:5px;width:630px; }
+    &.fixed         {padding-bottom:41px;
+      .save-section {position: fixed; padding-top:20px; border-bottom:solid 4px #11A8E0; background:linear-gradient(to bottom, rgba(#E9EDF0, 0) 0%, rgba(white,0.6) 40%);}
+    }
+  }
 </style>
