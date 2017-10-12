@@ -1,11 +1,11 @@
 <script>
-import {gravatar, dropdown} from 'lexi'
+import {gravatar, dropdown, x, add} from 'lexi'
 import {EventBus} from './event-bus'
 
 export default {
   name       : 'app-group',
   props      : ['group', 'model'],
-  components : {gravatar, dropdown},
+  components : {gravatar, dropdown, x, add},
   data() {
     return{}
   },
@@ -47,10 +47,8 @@ export default {
           //- Add an app
           dropdown(:hide-trigger="true" ref="apps-dd" :yMod="20" @change="moveApp($event, group.id)")
             .option(v-for="app in model.apps" :value="app.id" v-if="!group.apps.includes(app.id)") {{app.name}}
-          .action-btn(@click="$refs['apps-dd'].open()" v-show="Object.keys(model.apps).length > group.apps.length")
-            .circle
-              img.shadow-icon(data-src="add")
-            .txt Add an app
+
+          add.action-btn.circle.white.small.blue(@click="$refs['apps-dd'].open()" v-show="Object.keys(model.apps).length > group.apps.length") Add an app
 
         //- USERS
         .list.users
@@ -66,14 +64,10 @@ export default {
           .user(v-for="user in group.users" :key="user")
             gravatar(:email="model.users[user].email" :round="true" :size="35")
             .name {{ model.users[user].user }}
-            .x(@click="removeUser(user)")
-              img.shadow-icon(data-src="remove")
+            x.x(@click="removeUser(user)")
 
       .delete-section
-        .action-btn(@click="deleteGroup")
-          .delete
-            img.shadow-icon(data-src="remove")
-          .txt Delete Group
+        x(@click="deleteGroup") Delete Group
 </template>
 
 <!--
@@ -98,7 +92,7 @@ export default {
         .move       {font-size:13px; color:#11A7ED; font-style:italic; cursor: pointer; }
       }
       .user         {display: flex; align-items: center;
-        .x          {margin-left:auto; cursor: pointer; padding:2px; }
+        .x          {margin-left:auto; padding:2px; }
       }
       &.apps        {
         .action-btn {margin-top:20px; }

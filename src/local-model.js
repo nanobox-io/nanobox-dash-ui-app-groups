@@ -35,12 +35,21 @@ export default class LocalModel {
     EventBus.$on('group.name.change' , this.nameChanged);
   }
 
-  createGroup() {
-    groups.push( this.newGroup() )
+  createGroup = ()=> {
+    this.groups.unshift( this.newGroup() )
+    this.checkDataState()
   }
 
   deleteGroup = (groupId)=> {
-    this.groups.splice( _.findIndex(this.groups, {id:groupId}), 1 )
+    let groupIndex = _.findIndex(this.groups, {id:groupId})
+    let group      = this.getGroup(groupId)
+    let appsCopy   = group.apps.slice(0)
+    // Move all the apps into the unassigned group
+    for ( let appId of appsCopy ){
+      this.moveAppToGroup(appId, 'un.assigned.apps')
+    }
+    // Delete the group
+    this.groups.splice( groupIndex, 1 )
     this.checkDataState()
   }
 
