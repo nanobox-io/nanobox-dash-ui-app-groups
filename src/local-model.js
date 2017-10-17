@@ -87,8 +87,6 @@ export default class LocalModel {
   }
 
   nameChanged = (group)=> {
-    if(group.name.length > 0)
-      group.id = group.name.replace(/\s/g,'-').toLowerCase()
     this.checkDataState()
   }
 
@@ -124,13 +122,16 @@ export default class LocalModel {
     return groups;
   }
 
-  newGroup = (name="New Group (click to edit)", id='tempid', apps=[], users=[])=> {
+  newGroup = (name="New Group (click to edit)", id, apps=[], users=[])=> {
+    if(id == null)
+      id = `g${new Date().getTime()}`
     let group = {
       name       : name,
       id         : id,
       apps       : _.clone(apps),
       users      : _.clone(users),
     }
+    console.log( group )
     return group;
   }
 

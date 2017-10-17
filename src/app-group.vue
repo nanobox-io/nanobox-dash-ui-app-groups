@@ -10,12 +10,18 @@ export default {
     return{}
   },
   methods    : {
+    // Events
     moveApp(appId, groupId) {EventBus.$emit('app.move',          appId, groupId )},
     addUser(userId)         {EventBus.$emit('group.user.add',    this.group, userId )},
     removeUser(userId)      {EventBus.$emit('group.user.remove', this.group, userId )},
     moveApp(appId, groupId) {EventBus.$emit('group.app.move',    appId, groupId ) },
     deleteGroup()           {EventBus.$emit('group.delete',      this.group.id) },
-    onNameInput(val)        {EventBus.$emit('group.name.change', this.group)}
+    onNameInput(val)        {EventBus.$emit('group.name.change', this.group)},
+    // Name input focus
+    onInputFocus() {
+      if( this.$refs.nameField.value == 'New Group (click to edit)')
+        this.$refs.nameField.value = ""
+    }
   },
   mounted(){ castShadows(this.$el[0]); },
   updated(){ castShadows(this.$el[0]); }
@@ -29,7 +35,7 @@ export default {
 <template lang="pug">
   .app-group(v-bind:class="{unassigned:group.isUnassigned}")
     .title
-      input(placeholder="Group Name" v-model="group.name" @input="onNameInput" v-bind:disabled="group.isUnassigned")
+      input(placeholder="Group Name" v-model="group.name" @input="onNameInput" v-bind:disabled="group.isUnassigned" @focus="onInputFocus" ref="nameField")
     .main
       .lists
         //- Apps
@@ -59,7 +65,7 @@ export default {
               .option(v-for="user in model.users" :value="user.user" v-bind:class="{checked:group.users.includes(user.user)}") {{user.user}}
               .option(value="add.all") Add All
             .action-btn(@click="$refs['users-dd'].open()")
-              img.shadow-icon(data-src="add")
+              add.add.small.blue
               .txt Add a User
           .user(v-for="user in group.users" :key="user")
             gravatar(:email="model.users[user].email" :round="true" :size="35")
@@ -96,6 +102,9 @@ export default {
       }
       &.apps        {
         .action-btn {margin-top:20px; }
+      }
+      &.users       {
+        .add        {margin:-1px 0 0 0;}
       }
       .checked    {opacity:0.5; pointer-events: none; }
     }
