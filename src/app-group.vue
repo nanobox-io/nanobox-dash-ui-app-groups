@@ -65,6 +65,7 @@ export default {
             .action-btn(@click="$refs['users-dd'].open()")
               add.add.small.blue
               .txt Add a User
+
           .user(v-for="user in group.users" :key="user")
             gravatar(:email="model.users[user].email" :round="true" :size="24")
             .name {{ model.users[user].user }}
@@ -113,7 +114,9 @@ export default {
       input         {background:#D8DEE3; pointer-events: none; }
       .user .x,
       .users .action-btn,
-      .delete-section       {display: none;}
+      .users .user,
+      .delete-section {display: none;}
+      .users:after  {font-size:14px; font-style: italic; color:#658995; content:"Your whole team can access these apps"; line-height: 1.5; }
     }
   }
 </style>
