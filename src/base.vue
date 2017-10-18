@@ -1,10 +1,9 @@
-<script type="text/babel">
-import Vue from 'vue'
-Vue.config.productionTip = false
+<script>
 
 import appGroup from './app-group'
 import LocalModel from './local-model'
 import {saveSection, errors, add} from 'lexi'
+
 export default {
   name  : 'app-groups',
   props : ['model', 'callbacks'],
@@ -38,11 +37,23 @@ export default {
     },
     cancel() {
       this.localModel.reset()
+    },
+    refresh() {
+      console.log( 'refreshi it' )
     }
   },
   mounted() {
     this.onScroll()
     document.body.onscroll = this.onScroll
+  },
+  // computed:{
+  //   model(){return this.model},
+  // },
+  computed:{
+    groups(){return this.model.groups}
+  },
+  watch:{
+    groups:function(){this.localModel = new LocalModel(this.model) }
   }
 }
 </script>

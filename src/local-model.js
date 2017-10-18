@@ -131,7 +131,6 @@ export default class LocalModel {
       apps       : _.clone(apps),
       users      : _.clone(users),
     }
-    console.log( group )
     return group;
   }
 

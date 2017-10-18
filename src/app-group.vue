@@ -23,8 +23,6 @@ export default {
         this.$refs.nameField.value = ""
     }
   },
-  mounted(){ castShadows(this.$el[0]); },
-  updated(){ castShadows(this.$el[0]); }
 }
 </script>
 
@@ -121,11 +119,4 @@ export default {
       .delete-section       {display: none;}
     }
   }
-</style>
-
-<style lang="scss">
-  .delete{
-    svg * {fill:#11A7ED;}
-  }
-  .x:hover * {fill:black}
 </style>

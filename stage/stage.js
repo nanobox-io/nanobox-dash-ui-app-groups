@@ -1,22 +1,24 @@
 require('nanobox-core-styles/scss/_base.scss')
-require("script-loader!../node_modules/shadow-icons/rel/app.js")
-
-import Vue from 'vue'
-Vue.config.productionTip = false;
 
 import Shim from './shim'
 import appGroups from '../src/main.js'
-window.shim = new Shim()
+import Vue from 'vue'
+
+Vue.config.productionTip = false;
 
 let callbacks = {
   updateGroups(data, cb){
     console.log( "Update the groups with the following data : " )
     console.log( data )
     setTimeout( ()=> {
+      // refresh the source data
+      shim.data.groups = data
       cb({})
     }, 1200 * Math.random() );
   }
 }
+
+window.shim = new Shim()
 
 new Vue({
   el       : '#app',
