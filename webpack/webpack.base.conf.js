@@ -7,7 +7,6 @@ function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
 
-
 var uniqueStr = Date.now().toString(36)
 
 module.exports = {

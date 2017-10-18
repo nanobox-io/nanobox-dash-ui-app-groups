@@ -11,7 +11,10 @@ let callbacks = {
     console.log( "Update the groups with the following data : " )
     console.log( data )
     setTimeout( ()=> {
-      // refresh the source data
+      // simulate saving and ids changing
+      for ( let group of data ){
+        group.id += "-new-id"
+      }
       shim.data.groups = data
       cb({})
     }, 1200 * Math.random() );

@@ -177,6 +177,18 @@ export default class LocalModel {
     return flatGroups
   }
 
+  // Destroy!
+
+  destroy() {
+    EventBus.$off('group.create'      , this.createGroup);
+    EventBus.$off('group.delete'      , this.deleteGroup);
+    EventBus.$off('group.app.move'    , this.moveAppToGroup);
+    EventBus.$off('group.user.add'    , this.addUserToGroup);
+    EventBus.$off('group.user.remove' , this.removeUserFromGroup);
+    EventBus.$off('group.name.change' , this.nameChanged);
+  }
+
+
   // Make sure all the arrays are in sorted order for comparison
   sort(groups) {
     for ( let group of groups ){

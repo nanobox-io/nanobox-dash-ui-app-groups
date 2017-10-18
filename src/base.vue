@@ -10,7 +10,7 @@ export default {
   components : {appGroup, saveSection, errors, add},
   data() {
     return {
-      localModel   : new LocalModel(this.model, this.checkHeight),
+      localModel   : this.createLocalModel(),
       lockToBottom : false,
       error        : null,
       saving       : false,
@@ -38,6 +38,11 @@ export default {
     cancel() {
       this.localModel.reset()
     },
+    createLocalModel() {
+      if(this.localModel != null)
+        this.localModel.destroy()
+      return new LocalModel(this.model, this.checkHeight)
+    }
   },
   mounted() {
     this.checkHeight()
@@ -49,7 +54,7 @@ export default {
     groups(){return this.model.groups}
   },
   watch:{
-    groups:function(){this.localModel = new LocalModel(this.model, this.checkHeight) }
+    groups:function(){ this.localModel = this.createLocalModel() }
   }
 }
 </script>
