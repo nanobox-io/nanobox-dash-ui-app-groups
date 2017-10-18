@@ -4,9 +4,10 @@ import {EventBus} from './event-bus'
 
 export default class LocalModel {
 
-  constructor(model) {
+  constructor(model, changeCallback) {
     this.isDirty      = false
     this.originalData = model
+    this.changeCb     = changeCallback
     this.init()
     this.addListeners()
     window.model = this
@@ -154,6 +155,7 @@ export default class LocalModel {
 
   // Check to see of the current data state matches the original state
   checkDataState = ()=> {
+    this.changeCb()
     let flatGroups = this.flattenGroups()
     this.sort(this.originalData.groups)
     this.sort(flatGroups)

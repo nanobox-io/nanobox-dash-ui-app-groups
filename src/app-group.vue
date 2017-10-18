@@ -66,12 +66,12 @@ export default {
               add.add.small.blue
               .txt Add a User
           .user(v-for="user in group.users" :key="user")
-            gravatar(:email="model.users[user].email" :round="true" :size="35")
+            gravatar(:email="model.users[user].email" :round="true" :size="24")
             .name {{ model.users[user].user }}
-            x.x(@click="removeUser(user)")
+            x.x(@click="removeUser(user)" size="15" color="#4C80B0")
 
       .delete-section
-        x(@click="deleteGroup") Delete Group
+        x(@click="deleteGroup" size="15" ) Delete Group
 </template>
 
 <!--
@@ -79,30 +79,27 @@ export default {
 -->
 
 <style lang="scss" scoped>
-  .app-group        {background: #E0E6EA; margin-bottom:40px;
+  .app-group        {background: #E0E6EA; margin-bottom:30px;
     input           {width: 100%; height:36px; font-weight: $semibold; color:#034C66; font-size:16px; padding-left:25px; margin-bottom: 10px; }
-    .main           {padding:25px; }
+    .main           {padding:10px 25px 15px; }
     .lists          {display: flex; justify-content: space-between;}
 
     .list           {width:47%;display: flex; flex-direction: column;
       > .title      {border-bottom:solid 1px #CFCFCF; display: flex; justify-content: space-between; margin-bottom:10px; padding-bottom: 7px;
         > .txt      {@include caps(#1D4251, 13px);}
       }
-      .name         {font-size:17px; font-style: italic; color:#034C66}
+      .name         {font-size:15px; font-style: italic; color:#034C66; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
       .app,
-      .user         {height:35px; margin:0px 0 15px;}
-      .app          {
-        .name       {margin-top:10px; }
-        .move       {font-size:13px; color:#11A7ED; font-style:italic; cursor: pointer; }
+      .user         {height:18px; margin:0px 0 15px;}
+      .app          {display: flex; align-items: center;
+        .name       { }
+        .move       {margin-left: 15px; font-size:13px; color:#11A7ED; font-style:italic; cursor: pointer; }
       }
       .user         {display: flex; align-items: center;
         .x          {margin-left:auto; padding:2px; }
       }
-      &.apps        {
-        .action-btn {margin-top:20px; }
-      }
       &.users       {
-        .add        {margin:-1px 0 0 0;}
+        .add        {margin:-1px 0 0 0; height:16px; }
       }
       .checked    {opacity:0.5; pointer-events: none; }
     }
@@ -111,7 +108,7 @@ export default {
       .circle       {border-radius:50%; background: white; padding:3px; display: flex; align-items: center; justify-content: center;}
       &:hover       {color: #006ACC; }
     }
-    .delete-section {border-top:solid 1px #CFCFCF; display: flex; justify-content: flex-end; margin-top:20px; padding-top:20px; }
+    .delete-section {border-top:solid 1px #CFCFCF; display: flex; justify-content: flex-end; margin-top:20px; padding-top:15px; }
     &.unassigned    {
       input         {background:#D8DEE3; pointer-events: none; }
       .user .x,

@@ -10,7 +10,7 @@ export default {
   components : {appGroup, saveSection, errors, add},
   data() {
     return {
-      localModel   : new LocalModel(this.model),
+      localModel   : new LocalModel(this.model, this.checkHeight),
       lockToBottom : false,
       error        : null,
       saving       : false,
@@ -18,7 +18,7 @@ export default {
   },
   methods    : {
     // On scroll, check the position for showing / hiding the save-section
-    onScroll() {
+    checkHeight() {
       let rect = this.$el.getBoundingClientRect()
       let windowHeight = window.innerHeight
       if(rect.y + rect.height - windowHeight > 0)
@@ -38,22 +38,18 @@ export default {
     cancel() {
       this.localModel.reset()
     },
-    refresh() {
-      console.log( 'refreshi it' )
-    }
   },
   mounted() {
-    this.onScroll()
-    document.body.onscroll = this.onScroll
+    this.checkHeight()
+    document.body.onscroll = this.checkHeight
   },
-  // computed:{
-  //   model(){return this.model},
-  // },
+  // After save, rails updates the groups data obj. We watch for that
+  // update and flow the data down to the app groups components
   computed:{
     groups(){return this.model.groups}
   },
   watch:{
-    groups:function(){this.localModel = new LocalModel(this.model) }
+    groups:function(){this.localModel = new LocalModel(this.model, this.checkHeight) }
   }
 }
 </script>
@@ -68,7 +64,7 @@ export default {
     .add-section
       add.circle(@click="localModel.createGroup()") Create a Group
     app-group(v-for="(group,i) in localModel.groups" :group="group" :model="localModel" :key="i")
-    save-section(v-if="localModel.isDirty" @save="save" @cancel="cancel" :cycling="saving")
+    save-section(v-if="localModel.isDirty" @save="save" @cancel="cancel" :cycling="saving" save-text="Save Groups")
 </template>
 
 <!--
@@ -79,8 +75,8 @@ export default {
   .groups           {
     .save-section   {bottom: 0; padding-bottom:5px;width:630px; }
     &.fixed         {padding-bottom:41px;
-      .save-section {position: fixed; padding-top:20px; border-bottom:solid 4px #11A8E0; background:linear-gradient(to bottom, rgba(#E9EDF0, 0) 0%, rgba(white,0.6) 40%);}
+      .save-section {position: fixed; padding:10px 0 10px; border-bottom:solid 13px #0058ED; background:linear-gradient(to bottom, rgba(white, 0) 0%, rgba(white,1) 45%);}
     }
-    .add-section        {border-bottom:solid 1px #D7D7D7; margin:10px 0 20px; padding:20px 0;   }
+    .add-section    {border-bottom:solid 1px #D7D7D7; margin:10px 0 20px; padding:20px 0;   }
   }
 </style>

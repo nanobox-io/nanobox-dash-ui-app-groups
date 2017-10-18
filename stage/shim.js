@@ -10,7 +10,7 @@ export default class Shim {
         { id:"a", name:'lovely-lemming'},
         { id:"b", name:'sneaky-snake'},
         { id:"c", name:'meek-mouse'},
-        { id:"d", name:'daring-devonshire'},
+        { id:"d", name:'daring-devonshire-that-gets-super-long-and-ridiculous'},
         { id:"e", name:'lurking-lemming'},
       ],
       users : [
