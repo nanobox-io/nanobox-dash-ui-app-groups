@@ -4,9 +4,6 @@ import appGroup from './app-group'
 import LocalModel from './local-model'
 import {saveSection, errors, add} from 'lexi'
 
-import Vue from 'vue'
-Vue.config.productionTip = false
-
 export default {
   name  : 'app-groups',
   props : ['model', 'callbacks'],
