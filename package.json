@@ -1,6 +1,6 @@
 {
   "name": "app-groups",
-  "version": "0.0.13",
+  "version": "0.0.14",
   "description": "Nanobox dashboard UI component for managing App Groups",
   "author": "Mark Parson <mark@nanobox.io>",
   "private": true,
