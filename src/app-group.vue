@@ -1,11 +1,12 @@
 <script>
 import {gravatar, dropdown, x, add} from 'lexi'
 import {EventBus} from './event-bus'
+import ghost from './ghost'
 
 export default {
   name       : 'app-group',
   props      : ['group', 'model'],
-  components : {gravatar, dropdown, x, add},
+  components : {gravatar, dropdown, x, add, ghost},
   data() {
     return{}
   },
@@ -40,19 +41,19 @@ export default {
         .list.apps
           .title
             .txt Apps
-          .app(v-for="app in group.apps" )
-            .name {{ model.apps[app].name }}
+            //- Add an app
+            dropdown(:hide-trigger="true" ref="apps-dd" :yMod="20" @change="moveApp($event, group.id)")
+              .option(v-for="app in model.apps" :value="app.id" v-if="!group.apps.includes(app.id)") {{app.name}}
+            add.add.action-btn.small.white.circle.blue(@click="$refs['apps-dd'].open()" v-show="Object.keys(model.apps).length > group.apps.length")
 
-            //- Move app to new group
-            dropdown(:hide-trigger="true" :ref="`dd${model.apps[app].id}`" @change="moveApp(model.apps[app].id, $event)")
-              .option(v-for="grp in model.groups" :value="grp.id" v-bind:class="{checked:grp.id == group.id}") {{grp.name}}
-            .move(@click="$refs[$event.target.dataset.dropdownId][0].open() " :data-dropdown-id="`dd${model.apps[app].id}`") move
+          ghost
+            .app(v-for="(app,i) in group.apps" :key="model.apps[app].id")
+              .name {{ model.apps[app].name }}
 
-          //- Add an app
-          dropdown(:hide-trigger="true" ref="apps-dd" :yMod="20" @change="moveApp($event, group.id)")
-            .option(v-for="app in model.apps" :value="app.id" v-if="!group.apps.includes(app.id)") {{app.name}}
-
-          add.action-btn.circle.white.small.blue(@click="$refs['apps-dd'].open()" v-show="Object.keys(model.apps).length > group.apps.length") Add an app
+              //- Move app to new group
+              dropdown(:hide-trigger="true" :ref="`dd${model.apps[app].id}`" @change="moveApp(model.apps[app].id, $event)")
+                .option(v-for="grp in model.groups" :value="grp.id" v-bind:class="{checked:grp.id == group.id}") {{grp.name}}
+              .move(@click="$refs[$event.target.dataset.dropdownId][0].open() " :data-dropdown-id="`dd${model.apps[app].id}`") move
 
         //- USERS
         .list.users
@@ -66,10 +67,11 @@ export default {
               add.add.small.blue
               .txt Add a User
 
-          .user(v-for="user in group.users" :key="user")
-            gravatar(:email="model.users[user].email" :round="true" :size="24")
-            .name {{ model.users[user].user }}
-            x.x(@click="removeUser(user)" size="15" color="#4C80B0")
+          ghost
+            .user(v-for="user in group.users" :key="user")
+              gravatar(:email="model.users[user].email" :round="true" :size="24")
+              .name {{ model.users[user].user }}
+              x.x(@click="removeUser(user)" size="15" color="#4C80B0")
 
       .delete-section
         x(@click="deleteGroup" size="15" ) Delete Group
@@ -92,16 +94,14 @@ export default {
       .name         {font-size:15px; font-style: italic; color:#034C66; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;}
       .app,
       .user         {height:18px; margin:0px 0 15px;}
-      .app          {display: flex; align-items: center;
+      .app          {display: flex; align-items: baseline;
         .name       { }
-        .move       {margin-left: 15px; font-size:13px; color:#11A7ED; font-style:italic; cursor: pointer; }
+        .move       {margin-left: 10px; font-size:13px; color:#11A7ED; font-style:italic; cursor: pointer; }
       }
       .user         {display: flex; align-items: center;
         .x          {margin-left:auto; padding:2px; }
       }
-      &.users       {
-        .add        {margin:-1px 0 0 0; height:16px; }
-      }
+      .add        {margin:-1px 0 0 0; height:16px; }
       .checked    {opacity:0.5; pointer-events: none; }
     }
     .action-btn     {display: flex; align-items: center; font-size:13px; font-weight: $semibold; color: #11A7ED; font-style: italic; cursor:pointer;

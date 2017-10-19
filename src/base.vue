@@ -2,12 +2,13 @@
 
 import appGroup from './app-group'
 import LocalModel from './local-model'
+import ghost from './ghost'
 import {saveSection, errors, add} from 'lexi'
 
 export default {
   name  : 'app-groups',
   props : ['model', 'callbacks'],
-  components : {appGroup, saveSection, errors, add},
+  components : {appGroup, saveSection, errors, add, ghost},
   data() {
     return {
       localModel   : this.createLocalModel(),
@@ -68,7 +69,8 @@ export default {
     errors(:errors="error")
     .add-section
       add.circle(@click="localModel.createGroup()") Create a Group
-    app-group(v-for="(group,i) in localModel.groups" :group="group" :model="localModel" :key="i")
+    ghost
+      app-group(v-for="(group,i) in localModel.groups" :group="group" :model="localModel" :key="group.id")
     save-section(v-if="localModel.isDirty" @save="save" @cancel="cancel" :cycling="saving" save-text="Save Groups")
 </template>
 
